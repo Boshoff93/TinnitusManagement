@@ -11,17 +11,47 @@
     tools:context="com.example.wiehan.tinnitusmanagement.twoBack">
 
     <TextView
-        android:text='A sequence of letters will be displayed. When a letter is displayed more than once press the button. Press the "Start" button to start the game. '
+        android:text='A sequence of letters will be displayed. When a letter is displayed more than once tap the button. Press the "Start" button to start the game. '
         android:id="@+id/textExplain"
         android:layout_width="380dp"
         android:textAlignment="textStart"
         android:textStyle="normal|bold"
         android:textSize="20sp"
         android:textColor="@android:color/background_dark"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_height="125dp" />
+        android:layout_height="125dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textExplain"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/textCorrect" />
+
+    <TextView
+        android:text="Wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/textWrong"
+        android:layout_below="@+id/textCorrect"
+        android:layout_alignStart="@+id/textCorrect" />
+
+    <Button
+        android:text="START"
+        android:id="@+id/buttonStartSequence"
+        android:background="@drawable/my_personal_buttons"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_alignBottom="@+id/exitButton"
+        android:layout_alignStart="@+id/textWrong"
+        android:layout_alignTop="@+id/exitButton" />
 
     <Button
         android:text="EXIT"
@@ -30,28 +60,43 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginBottom="32dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="19dp"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/textExplain" />
 
     <Button
-        android:text="START"
-        android:id="@+id/buttonStartSequence"
+        android:text="TAP"
+        android:id="@+id/buttonTap"
         android:background="@drawable/my_personal_buttons"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="37dp"
-        android:layout_alignBottom="@+id/exitButton"
-        android:layout_alignParentStart="true" />
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:visibility="visible"
+        android:layout_above="@+id/buttonStartSequence"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:text="SEQ"
+        android:id="@+id/textSequence"
+        android:layout_height="50dp"
+        android:textStyle="normal|bold"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:layout_width="100dp"
+        android:layout_alignBaseline="@+id/textCorrect"
+        android:layout_alignBottom="@+id/textCorrect"
+        android:layout_alignStart="@+id/buttonTap" />
 
     <TextView
         android:id="@+id/textCount"
-        android:layout_marginTop="96dp"
         android:textSize="24sp"
         android:layout_height="50dp"
         android:textAlignment="center"
         android:text="C"
         android:layout_width="50dp"
-        android:layout_below="@+id/textExplain"
-        android:layout_toEndOf="@+id/buttonStartSequence" />
+        android:layout_below="@+id/textSequence"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
