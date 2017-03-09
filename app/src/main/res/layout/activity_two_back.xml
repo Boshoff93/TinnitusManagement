@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_two_back"
     android:layout_width="match_parent"
@@ -10,8 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.wiehan.tinnitusmanagement.twoBack">
 
+
     <TextView
-        android:text='A sequence of letters will be displayed. When a letter is displayed more than once tap the button. Press the "Start" button to start the game. '
+        android:text='A SEQUENCE OF LETERS WILL BE DISPLAYED. WHEN A LETTER IS DISPLAYED MORE THAN ONCE, TAP THE BUTTON. PRESS "START" TO CONTINUE.'
         android:id="@+id/textExplain"
         android:layout_width="380dp"
         android:textAlignment="textStart"
@@ -25,22 +27,17 @@
 
     <TextView
         android:text="Correct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
+        android:id="@+id/textCorrect"
+        android:background="@drawable/correctbox"
+        android:gravity="center"
+        android:layout_width="120dp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="20sp"
         android:layout_below="@+id/textExplain"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:id="@+id/textCorrect" />
-
-    <TextView
-        android:text="Wrong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:id="@+id/textWrong"
-        android:layout_below="@+id/textCorrect"
-        android:layout_alignStart="@+id/textCorrect" />
+        android:layout_marginStart="27dp" />
 
     <Button
         android:text="START"
@@ -48,9 +45,8 @@
         android:background="@drawable/my_personal_buttons"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="15dp"
         android:layout_alignBottom="@+id/exitButton"
-        android:layout_alignStart="@+id/textWrong"
+        android:layout_toStartOf="@+id/textCount"
         android:layout_alignTop="@+id/exitButton" />
 
     <Button
@@ -59,10 +55,32 @@
         android:background="@drawable/my_personal_buttons"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="38dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/textExplain" />
+        android:layout_toEndOf="@+id/textCount" />
+
+    <TextView
+        android:text="Wrong"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/textWrong"
+        android:background="@drawable/wrongbox"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="normal|bold"
+        android:layout_marginEnd="27dp"
+        android:layout_below="@+id/textExplain"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textCount"
+        android:textSize="24sp"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:text="C"
+        android:layout_width="50dp"
+        android:layout_below="@+id/textSequence"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="TAP"
@@ -75,8 +93,7 @@
         android:textAlignment="center"
         android:visibility="visible"
         android:layout_above="@+id/buttonStartSequence"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text="SEQ"
@@ -86,17 +103,9 @@
         android:textSize="36sp"
         android:textAlignment="center"
         android:layout_width="100dp"
-        android:layout_alignBaseline="@+id/textCorrect"
-        android:layout_alignBottom="@+id/textCorrect"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/textExplain"
         android:layout_alignStart="@+id/buttonTap" />
 
-    <TextView
-        android:id="@+id/textCount"
-        android:textSize="24sp"
-        android:layout_height="50dp"
-        android:textAlignment="center"
-        android:text="C"
-        android:layout_width="50dp"
-        android:layout_below="@+id/textSequence"
-        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
