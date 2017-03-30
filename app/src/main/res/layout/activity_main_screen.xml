@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
@@ -13,10 +14,61 @@
         android:text="START"
         android:layout_height="120dp"
         android:id="@+id/buttonMain"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:layout_width="120dp"
         android:textSize="24sp"
         android:background="@drawable/my_personal_buttons"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:layout_marginTop="157dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        app:srcCompat="@drawable/medicalwing"
+        android:id="@+id/logoTwo"
+        android:scaleType="fitXY"
+        android:layout_width="100dp"
+        android:layout_alignBottom="@+id/logoOne"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="8dp"
+        android:layout_height="28dp" />
+
+    <ImageView
+        app:srcCompat="@drawable/ixdmlogo"
+        android:id="@+id/logoThree"
+        android:scaleType="fitXY"
+        android:layout_width="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_alignStart="@+id/logoTwo"
+        android:layout_height="28dp" />
+
+    <Button
+        android:text="ABOUT"
+        android:layout_width="wrap_content"
+        android:id="@+id/buttonAbout"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignTop="@+id/logoThree"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        app:srcCompat="@drawable/medical_wing"
+        android:id="@+id/logoOne"
+        android:scaleType="centerInside"
+        android:layout_height="60dp"
+        android:layout_width="75dp"
+        android:layout_alignTop="@+id/logoThree"
+        android:layout_toStartOf="@+id/buttonMain"
+        android:layout_marginEnd="17dp" />
+
 </RelativeLayout>
