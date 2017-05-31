@@ -17,17 +17,27 @@ public class SelectActivity extends AppCompatActivity {
 
         final ImageButton twoBackButton = (ImageButton) findViewById(R.id.twoBackButton);
 
+        final ImageButton breathingButton = (ImageButton) findViewById(R.id.breathingButton);
+
         //Changes screens when button is clicked.
         twoBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startButtonAnimation(twoBackButton);
+                startButtonAnimation(twoBackButton,"twoBack");
+            }
+        });
+
+        //Changes screens to breath control activity when button is clicked.
+        breathingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startButtonAnimation(breathingButton,"breathing");
             }
         });
 
     }
 
-    public void startButtonAnimation(ImageButton button) {
+    public void startButtonAnimation(ImageButton button, final String name) {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
         button.startAnimation(myAnim);
 
@@ -49,8 +59,14 @@ public class SelectActivity extends AppCompatActivity {
             //Once Animation ends change screens
             @Override
             public void onAnimationEnd(Animation animation) {
-                Intent intent = new Intent(getApplicationContext(), twoBack.class);
-                startActivity(intent);
+
+                if(name.equals("twoBack")) {
+                    Intent intent = new Intent(getApplicationContext(), twoBack.class);
+                    startActivity(intent);
+                } else if(name.equals("breathing")) {
+                    Intent intent = new Intent(getApplicationContext(), BreathControl.class);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectActivity" />
-        <activity android:name=".twoBack"></activity>
+        <activity android:name=".twoBack" />
+        <activity android:name=".BreathControl"></activity>
     </application>
 
 </manifest>
