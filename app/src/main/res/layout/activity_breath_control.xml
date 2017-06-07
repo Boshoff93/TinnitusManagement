@@ -29,4 +29,34 @@
         android:layout_marginTop="114dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/buttunBreath" />
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="#00000000"
+        app:srcCompat="@drawable/play" />
+
+    <SeekBar
+        android:id="@+id/volumeAdjust"
+        android:layout_width="300px"
+        android:layout_height="20dp"
+        android:max="100"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:progress="50"
+        android:progressDrawable="@drawable/progress_drawable"
+        android:splitTrack="false"
+        android:thumb="@drawable/thumb_drawable"
+        android:thumbOffset="0dp"
+        android:layout_toStartOf="@+id/playButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/playButton" />
+
+        />
+
 </RelativeLayout>

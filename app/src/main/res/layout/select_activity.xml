@@ -21,15 +21,15 @@
 
     <ImageButton
         android:id="@+id/breathingButton"
-        app:srcCompat="@drawable/abc"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:elevation="0dp"
-        android:scaleType="centerInside"
-        android:background="@drawable/my_personal_buttons"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="45dp"
+        android:adjustViewBounds="false"
+        android:background="@drawable/my_personal_buttons"
+        android:cropToPadding="false"
+        android:elevation="0dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/lungsnew"
         android:layout_alignTop="@+id/twoBackButton"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

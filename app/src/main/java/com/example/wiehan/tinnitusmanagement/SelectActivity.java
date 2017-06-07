@@ -19,6 +19,8 @@ public class SelectActivity extends AppCompatActivity {
 
         final ImageButton breathingButton = (ImageButton) findViewById(R.id.breathingButton);
 
+
+
         //Changes screens when button is clicked.
         twoBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
