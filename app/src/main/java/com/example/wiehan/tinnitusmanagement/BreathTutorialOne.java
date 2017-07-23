@@ -3,6 +3,7 @@ package com.example.wiehan.tinnitusmanagement;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 public class BreathTutorialOne extends AppCompatActivity {
 
     private ViewPagerAdapter viewPagerAdapter;
@@ -31,6 +34,9 @@ public class BreathTutorialOne extends AppCompatActivity {
     private int desiredSpeed = 800;
     private LinearLayout dotsLayout;
     private int[] layouts;
+    MediaPlayer mpBreatheIn ;
+    MediaPlayer mpBreatheOut ;
+    boolean flagStopPlayer = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,12 @@ public class BreathTutorialOne extends AppCompatActivity {
         boolean isFirstTime = MyPreferences.isFirst(BreathTutorialOne.this);
 
         if (isFirstTime) {
+            mpBreatheIn = MediaPlayer.create(this, R.raw.breathein);
+            mpBreatheOut = MediaPlayer.create(this, R.raw.breatheout);
+            mpBreatheIn.setVolume(1,1);
+            mpBreatheOut.setVolume(1,1);
+
+
             tutorialManager = new TutorialManager(this);
             if (!tutorialManager.Check()) {
                 tutorialManager.setFirst(false);
@@ -139,18 +151,21 @@ public class BreathTutorialOne extends AppCompatActivity {
                 final Animation scaleSmaller = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_smaller);
                 scaleBigger.setDuration(2000);
                 scaleSmaller.setDuration(2000);
+                flagStopPlayer = false;
                 expandBubble(view, scaleBigger, scaleSmaller);
             } else if (position == 3) {
                 next.setTextColor(Color.parseColor("#ffffff"));
                 skip.setTextColor(Color.parseColor("#ffffff"));
                 next.setText("NEXT");
                 skip.setVisibility(View.VISIBLE);
+                flagStopPlayer = true;
                 globalCount = 0 ;
             } else {
                 next.setText("NEXT");
                 next.setTextColor(Color.parseColor("#000000"));
                 skip.setTextColor(Color.parseColor("#000000"));
                 skip.setVisibility(View.VISIBLE);
+                flagStopPlayer = true;
                 globalCount = 0 ;
             }
         }
@@ -206,6 +221,8 @@ public class BreathTutorialOne extends AppCompatActivity {
 
             @Override
             public void onAnimationStart(Animation animation) {
+                if(!flagStopPlayer)
+                    mpBreatheIn.start();
             }
 
             @Override
@@ -216,7 +233,7 @@ public class BreathTutorialOne extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (scaleBigger.getDuration() < desiredSpeed) {
-                    scaleBigger.setDuration(scaleBigger.getDuration() + 200);
+                    scaleBigger.setDuration(scaleBigger.getDuration() + 500);
                 }
                 contractBubble(view, scaleBigger, scaleSmaller);
             }
@@ -229,6 +246,8 @@ public class BreathTutorialOne extends AppCompatActivity {
 
             @Override
             public void onAnimationStart(Animation animation) {
+                if(!flagStopPlayer)
+                    mpBreatheOut.start();
             }
 
             @Override
@@ -242,9 +261,9 @@ public class BreathTutorialOne extends AppCompatActivity {
                 globalCount++;
 
                 if (scaleSmaller.getDuration() < desiredSpeed) {
-                    scaleSmaller.setDuration(scaleSmaller.getDuration() + 200);
+                    scaleSmaller.setDuration(scaleSmaller.getDuration() + 500);
                 }
-                if (globalCount < 5) {
+                if (globalCount < 4) {
                     expandBubble(view, scaleBigger, scaleSmaller);
                 }
             }
