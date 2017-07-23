@@ -66,7 +66,7 @@ public class SelectActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), twoBack.class);
                     startActivity(intent);
                 } else if(name.equals("breathing")) {
-                    Intent intent = new Intent(getApplicationContext(), BreathControl.class);
+                    Intent intent = new Intent(getApplicationContext(), BreathTutorialOne.class);
                     startActivity(intent);
                 }
             }

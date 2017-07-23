@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:background="@drawable/spinner_custom"
+        android:overlapAnchor="false"
+        android:spinnerMode="dropdown"
+        android:layout_alignTop="@+id/volumeTutOne"
+        android:layout_toStartOf="@+id/bubbleTutOne" />
+
+    <TextView
+        android:id="@+id/textTutBPMTwo"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_alignTop="@+id/spinner"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/spinner"
+        android:paddingTop="6dp"
+        android:text="BPM:"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:id="@+id/volumeTutOne"
+        android:layout_width="125dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/playTutOne"
+        android:layout_alignTop="@+id/playTutOne"
+        android:layout_toStartOf="@+id/playTutOne"
+        android:enabled="false"
+        android:max="100"
+        android:paddingBottom="12dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="12dp"
+        android:progress="50"
+        android:progressDrawable="@drawable/progress_drawable"
+        android:splitTrack="false"
+        android:thumb="@drawable/thumb_drawable"
+        android:thumbOffset="0dp" />
+
+    <ImageView
+        android:id="@+id/bubbleTutOne"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/bubble"
+        android:layout_marginTop="90dp"
+        android:layout_below="@+id/volumeTutOne"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/exitTutOne"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="60dp"
+        app:srcCompat="@drawable/my_personal_buttons"
+        android:layout_marginEnd="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/bubbleTutOne" />
+
+    <ImageView
+        android:id="@+id/startTutOne"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:srcCompat="@drawable/my_personal_buttons"
+        android:layout_marginEnd="26dp"
+        android:layout_alignTop="@+id/exitTutOne"
+        android:layout_alignEnd="@+id/playTutOne" />
+
+    <ImageView
+        android:id="@+id/playTutOne"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@drawable/play"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="88dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/startLabelTutOne"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:text="START"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/exitLabelTutOne"
+        android:layout_alignBottom="@+id/exitLabelTutOne"
+        android:layout_toStartOf="@+id/playTutOne" />
+
+    <TextView
+        android:id="@+id/exitLabelTutOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EXIT"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/exitTutOne"
+        android:layout_alignStart="@+id/exitTutOne"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="28dp" />
+
+    <EditText
+        android:id="@+id/textExplainBubble"
+        android:layout_width="350dp"
+        android:layout_height="160dp"
+        android:background="@drawable/textview_custom"
+        android:ems="10"
+        android:focusable="false"
+        android:fontFamily="sans-serif-condensed"
+        android:inputType="textMultiLine"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Once the start button is pressed, the green bubble will start expanding and contracting at a moderately fast pace. After each, inhale and exhale, the bubble will slow down its speed slightly, until the desired BMP is reached. A total of 30 breaths is required to complete the exercise. "
+        android:textAlignment="textStart"
+        android:layout_below="@+id/bubbleTutOne"
+        android:layout_alignEnd="@+id/startTutOne"
+        android:layout_marginTop="9dp" />
+
+    <ImageView
+        android:id="@+id/imgPointBubble"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        app:srcCompat="@drawable/pointupright"
+        android:layout_alignBottom="@+id/bubbleTutOne"
+        android:layout_toEndOf="@+id/textTutBPMTwo" />
+
+
+</RelativeLayout>

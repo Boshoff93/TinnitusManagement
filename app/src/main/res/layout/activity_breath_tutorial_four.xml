@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+
+    tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgPointLongClick"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:adjustViewBounds="false"
+        app:srcCompat="@drawable/pointdownleft"
+        android:layout_above="@+id/linearLayout"
+        android:layout_toStartOf="@+id/bubbleTutOne"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="11dp" />
+
+    <ImageView
+        android:id="@+id/imgPointLongClickAgain"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:adjustViewBounds="false"
+        app:srcCompat="@drawable/pointupright"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/bubbleTutOne"
+        android:layout_toEndOf="@+id/bubbleTutOne" />
+
+    <ImageView
+        android:id="@+id/bubbleTutOne"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/bubble"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/startLabelTutOne"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:text="START"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/exitLabelTutOne"
+        android:layout_alignBottom="@+id/exitLabelTutOne"
+        android:layout_toStartOf="@+id/playTutOne" />
+
+    <EditText
+        android:id="@+id/textExplainLongClick"
+        android:layout_width="200dp"
+        android:layout_height="140dp"
+        android:background="@drawable/textview_custom"
+        android:ems="10"
+        android:focusable="false"
+        android:fontFamily="sans-serif-condensed"
+        android:inputType="textMultiLine"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Holding down anywhere on the screen will fade the screen to black, and make all components except for the green bubble dissapear."
+        android:textAlignment="textStart"
+        android:layout_above="@+id/imgPointLongClick"
+        android:layout_alignStart="@+id/imgPointLongClick"
+        android:layout_marginStart="43dp" />
+
+    <EditText
+        android:id="@+id/textExplainLongClickAgain"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@drawable/textview_custom"
+        android:ems="10"
+        android:focusable="false"
+        android:fontFamily="sans-serif-condensed"
+        android:inputType="textMultiLine"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Holding down again will fade the screen back to its original state"
+        android:textAlignment="textStart"
+        android:layout_marginStart="17dp"
+        android:layout_below="@+id/imgPointLongClickAgain"
+        android:layout_toEndOf="@+id/startLabelTutOne" />
+
+
+</RelativeLayout>

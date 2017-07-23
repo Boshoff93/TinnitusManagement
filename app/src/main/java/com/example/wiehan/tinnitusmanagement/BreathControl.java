@@ -1,23 +1,51 @@
 package com.example.wiehan.tinnitusmanagement;
 
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BreathControl extends AppCompatActivity {
-    int globalCount = 0;
+    int globalCount;
     MediaPlayer mp;
+    private Spinner spinner  ;
+    private int desiredSpeed;
+    Button buttonBreath;
+    boolean backGroundHide = false ;
+    boolean keepStartButtonInvisible = false;
+    View background;
+    SeekBar volumeSeekbar;
+    Button buttonExit;
+    Button buttonTutorial;
+    ImageButton playButton;
+    TextView dropDownLabel;
+    ActionBar actionBar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +54,116 @@ public class BreathControl extends AppCompatActivity {
 
         final View view = findViewById(R.id.breath_bubble);
         final Animation scaleBigger = AnimationUtils.loadAnimation(this, R.anim.scale_bigger);
-
         final Animation scaleSmaller = AnimationUtils.loadAnimation(this, R.anim.scale_smaller);
+        scaleBigger.setDuration(2000);
+        scaleSmaller.setDuration(2000);
 
-        final ImageButton playButton = (ImageButton) findViewById(R.id.playButton);
+        playButton = (ImageButton) findViewById(R.id.playButton);
         playButton.setTag(1);
 
-        final Button buttonBreath = (Button) findViewById(R.id.buttunBreath);
+        buttonBreath = (Button) findViewById(R.id.buttunBreath);
+        buttonExit = (Button) findViewById(R.id.buttonExit);
+        buttonTutorial = (Button) findViewById(R.id.buttonTutorial);
 
         mp = MediaPlayer.create(this, R.raw.whitenoise);
 
-        final SeekBar volumeSeekbar = (SeekBar) findViewById(R.id.volumeAdjust);
+        volumeSeekbar = (SeekBar) findViewById(R.id.volumeAdjust);
+        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        background = (View) findViewById(R.id.activity_breath_control) ;
+        actionBar = getSupportActionBar();
 
-        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE); ;
-
+        addItemsOnSpinner();
         volumeSeekbar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volumeSeekbar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+        final AlertDialog.Builder headPhoneAlert = new AlertDialog.Builder(BreathControl.this);
+        headPhoneAlert.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        globalCount = 0;
+                        keepStartButtonInvisible = true;
+                        startButtonAnimation(buttonBreath, view, scaleBigger, scaleSmaller, mp);
+                    }
+                });
+
+        headPhoneAlert.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        final AlertDialog hpAlert = headPhoneAlert.create();
+        hpAlert.getWindow().setBackgroundDrawableResource(R.drawable.textview_custom);
+        hpAlert.setMessage("THE SYSTEM HAS DETECTED THAT YOU DON'T HAVE ANY EARPHONES CONNECTED. ARE YOU SURE YOU WANT TO CONTINUE?");
+
+        dropDownLabel = (TextView) findViewById(R.id.textBPM) ;
+
+        background.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                if (!backGroundHide) {
+                    ObjectAnimator colorFade = ObjectAnimator.ofObject(background, "backgroundColor", new ArgbEvaluator(), Color.argb(255, 255, 255, 255), 0xff000000);
+                    volumeSeekbar.setVisibility(View.INVISIBLE);
+                    buttonExit.setVisibility(View.INVISIBLE);
+                    buttonBreath.setVisibility(View.INVISIBLE);
+                    playButton.setVisibility(View.INVISIBLE);
+                    spinner.setVisibility(View.INVISIBLE);
+                    dropDownLabel.setVisibility(View.INVISIBLE);
+                    buttonTutorial.setVisibility(View.INVISIBLE);
+
+                    actionBar.setBackgroundDrawable(new ColorDrawable(0xff000000));
+                    actionBar.setDisplayShowTitleEnabled(false);
+
+                    colorFade.setDuration(1000);
+                    colorFade.start();
+                    backGroundHide = true ;
+                    return true;
+                } else {
+                    ObjectAnimator colorFade = ObjectAnimator.ofObject(background, "backgroundColor", new ArgbEvaluator(), 0xff000000, Color.argb(255, 255, 255, 255));
+                    volumeSeekbar.setVisibility(View.VISIBLE);
+                    buttonExit.setVisibility(View.VISIBLE);
+                    if(keepStartButtonInvisible){
+                        buttonBreath.setVisibility(View.INVISIBLE);
+                    } else {
+                        buttonBreath.setVisibility(View.VISIBLE);
+                    }
+                    playButton.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.VISIBLE);
+                    dropDownLabel.setVisibility(View.VISIBLE);
+                    buttonTutorial.setVisibility(View.VISIBLE);
+                    actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3F51B5")));
+                    actionBar.setDisplayShowTitleEnabled(true);
+
+                    colorFade.setDuration(1000);
+                    colorFade.start();
+                    backGroundHide = false ;
+                }
+                return true;
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String bpm = spinner.getItemAtPosition(position).toString() ;
+                if(bpm.equals("6")) {
+                   desiredSpeed = 5000;
+                } else if(bpm.equals("9")) {
+                   desiredSpeed = 3350; ;
+                } else {
+                   desiredSpeed = 2500;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         //Update the MediaPlayer's position while the user drags the SeekBar
         volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -65,7 +187,21 @@ public class BreathControl extends AppCompatActivity {
         buttonBreath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startButtonAnimation(buttonBreath, view, scaleBigger, scaleSmaller, mp);
+                AudioManager checkHeadphones = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                if (checkHeadphones.isWiredHeadsetOn() || checkHeadphones.isBluetoothA2dpOn()) {
+                  globalCount = 0;
+                  keepStartButtonInvisible = true;
+                  startButtonAnimation(buttonBreath, view, scaleBigger, scaleSmaller, mp);
+                } else {
+                    hpAlert.show();
+                }
+            }
+        });
+
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exitButtonAnimation(mp);
             }
         });
 
@@ -84,7 +220,12 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
-
+        buttonTutorial.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                tutorialButtonAnimation();
+            }
+        });
     }
 
     @Override
@@ -93,7 +234,7 @@ public class BreathControl extends AppCompatActivity {
         mp.stop();
     }
 
-    public void startButtonAnimation(Button buttonBreath, final View view, final Animation scaleBigger, final Animation scaleSmaller, final MediaPlayer mp) {
+    public void startButtonAnimation(final Button buttonBreath, final View view, final Animation scaleBigger, final Animation scaleSmaller, final MediaPlayer mp) {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
         buttonBreath.startAnimation(myAnim);
 
@@ -116,7 +257,70 @@ public class BreathControl extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mp.start();
+                buttonBreath.setVisibility(View.INVISIBLE);
                 expandBubble(view, scaleBigger, scaleSmaller);
+            }
+        });
+
+    }
+
+    public void tutorialButtonAnimation() {
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        buttonTutorial.startAnimation(myAnim);
+
+        // Use bounce interpolator with amplitude 0.2 and frequency 20
+        // 0.2 is the bounce amplitude and 20 is the frequency
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 25);
+        myAnim.setInterpolator(interpolator);
+
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            //Once Animation ends change screens
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                MyPreferences.resetFirst(getApplicationContext());
+                finish();
+                Intent i = new Intent(getApplicationContext(), BreathTutorialOne.class);
+                startActivity(i);
+            }
+        });
+
+    }
+
+    public void exitButtonAnimation(final MediaPlayer mp) {
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        buttonExit.startAnimation(myAnim);
+
+        // Use bounce interpolator with amplitude 0.2 and frequency 20
+        // 0.2 is the bounce amplitude and 20 is the frequency
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 25);
+        myAnim.setInterpolator(interpolator);
+
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            //Once Animation ends change screens
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mp.stop();
+                finish();
+                Intent intent = new Intent(getApplicationContext(), SelectActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -139,8 +343,11 @@ public class BreathControl extends AppCompatActivity {
             //Once Animation ends change screens
             @Override
             public void onAnimationEnd(Animation animation) {
+                if(scaleBigger.getDuration() < desiredSpeed) {
+                    scaleBigger.setDuration(scaleBigger.getDuration() + 200);
+                }
+
                 contractBubble(view, scaleBigger, scaleSmaller);
-                scaleBigger.setDuration(scaleBigger.getDuration() + 200);
             }
         });
 
@@ -148,7 +355,6 @@ public class BreathControl extends AppCompatActivity {
 
     public void contractBubble(final View view, final Animation scaleBigger, final Animation scaleSmaller) {
         view.startAnimation(scaleSmaller);
-
         scaleSmaller.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
@@ -164,18 +370,64 @@ public class BreathControl extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
 
                 globalCount++;
-                scaleSmaller.setDuration(scaleSmaller.getDuration() + 200);
 
-                if (globalCount < 15) {
+                if(scaleSmaller.getDuration() < desiredSpeed) {
+                    scaleSmaller.setDuration(scaleSmaller.getDuration() + 200);
+                }
+                if (globalCount < 30) {
                     expandBubble(view, scaleBigger, scaleSmaller);
                 } else {
+                    mp.stop();
+                    keepStartButtonInvisible = false;
+                    try {
+                        mp.prepare();
+                        mp.seekTo(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     scaleBigger.setDuration(2000);
                     scaleSmaller.setDuration(2000);
+                    final CharSequence text = "Done! If you want to redo the exercise, press the start button.";
+                    final Context context = getApplicationContext();
+
+                    volumeSeekbar.setVisibility(View.VISIBLE);
+                    buttonExit.setVisibility(View.VISIBLE);
+                    buttonBreath.setVisibility(View.VISIBLE);
+                    playButton.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.VISIBLE);
+                    dropDownLabel.setVisibility(View.VISIBLE);
+                    buttonTutorial.setVisibility(View.VISIBLE);
+
+                    if(backGroundHide) {
+                        ObjectAnimator colorFade = ObjectAnimator.ofObject(background, "backgroundColor", new ArgbEvaluator(), 0xff000000, Color.argb(255, 255, 255, 255));
+                        colorFade.setDuration(1000);
+                        colorFade.start();
+                    }
+                    backGroundHide = false;
+                    actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3F51B5")));
+                    actionBar.setDisplayShowTitleEnabled(true);
+
+                    Toast toast = Toast.makeText(context, text ,Toast.LENGTH_LONG) ;
+                    toast.setGravity(Gravity.TOP,0,1000);
+                    toast.show();
                 }
 
             }
         });
 
+    }
+
+    // Add items into spinner dynamically
+    public void addItemsOnSpinner() {
+        spinner = (Spinner) findViewById(R.id.bpmDropdown);
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(6);
+        list.add(9);
+        list.add(12);
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 }
 
