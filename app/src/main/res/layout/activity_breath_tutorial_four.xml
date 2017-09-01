@@ -61,8 +61,11 @@
 
     <EditText
         android:id="@+id/textExplainLongClick"
-        android:layout_width="200dp"
-        android:layout_height="140dp"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/imgPointLongClick"
+        android:layout_alignStart="@+id/imgPointLongClick"
+        android:layout_marginStart="43dp"
         android:background="@drawable/textview_custom"
         android:ems="10"
         android:focusable="false"
@@ -70,16 +73,16 @@
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Holding down anywhere on the screen will fade the screen to black, and make all components except for the green bubble dissapear."
-        android:textAlignment="textStart"
-        android:layout_above="@+id/imgPointLongClick"
-        android:layout_alignStart="@+id/imgPointLongClick"
-        android:layout_marginStart="43dp" />
+        android:text="Holding down on the screen will fade away all components except the green bubble."
+        android:textAlignment="textStart" />
 
     <EditText
         android:id="@+id/textExplainLongClickAgain"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="80dp"
+        android:layout_below="@+id/imgPointLongClickAgain"
+        android:layout_marginStart="17dp"
+        android:layout_toEndOf="@+id/startLabelTutOne"
         android:background="@drawable/textview_custom"
         android:ems="10"
         android:focusable="false"
@@ -87,11 +90,8 @@
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Holding down again will fade the screen back to its original state"
-        android:textAlignment="textStart"
-        android:layout_marginStart="17dp"
-        android:layout_below="@+id/imgPointLongClickAgain"
-        android:layout_toEndOf="@+id/startLabelTutOne" />
+        android:text="Hold down again to fade the screen back to its original state"
+        android:textAlignment="textStart" />
 
 
 </RelativeLayout>

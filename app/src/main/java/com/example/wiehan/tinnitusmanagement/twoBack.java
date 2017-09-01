@@ -104,8 +104,7 @@ public class twoBack extends AppCompatActivity {
             //Once Animation ends change screens
             @Override
             public void onAnimationEnd(Animation animation) {
-                Intent intent = new Intent(getApplicationContext(), SelectActivity.class);
-                startActivity(intent);
+
             }
         });
 

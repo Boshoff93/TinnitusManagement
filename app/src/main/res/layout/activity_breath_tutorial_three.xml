@@ -7,6 +7,26 @@
     android:background="@android:color/white"
     tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
 
+    <ImageView
+        android:id="@+id/tutImageTutThree"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/exitTutOne"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/my_personal_buttons" />
+
+    <TextView
+        android:id="@+id/tutLabelTutThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/exitLabelTutOne"
+        android:layout_alignBottom="@+id/exitLabelTutOne"
+        android:layout_centerHorizontal="true"
+        android:text="TUTORIAL"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -17,23 +37,6 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/textExplainExit"
-        android:layout_width="225dp"
-        android:layout_height="60dp"
-        android:background="@drawable/textview_custom"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed"
-        android:inputType="textMultiLine"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:focusable="false"
-        android:text="Press on the EXIT button to go back to the select screen."
-        android:textAlignment="textStart"
-        android:layout_above="@+id/exitTutOne"
-        android:layout_toStartOf="@+id/startTutOne"
-        android:layout_marginBottom="16dp" />
-
     <ImageView
         android:id="@+id/imgPointVolume"
         android:layout_width="40dp"
@@ -41,14 +44,6 @@
         app:srcCompat="@drawable/pointupright"
         android:layout_alignTop="@+id/volumeTutOne"
         android:layout_toStartOf="@+id/volumeTutOne" />
-
-    <ImageView
-        android:id="@+id/imgPointExit"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/pointdownleft"
-        android:layout_alignBottom="@+id/exitLabelTutOne"
-        android:layout_toStartOf="@+id/textExplainVolume" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -157,21 +152,20 @@
 
     <EditText
         android:id="@+id/textExplainVolume"
-        android:layout_width="200dp"
-        android:layout_height="125dp"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/imgPointVolume"
+        android:layout_marginTop="9dp"
+        android:layout_toStartOf="@+id/playTutOne"
         android:background="@drawable/textview_custom"
         android:ems="10"
+        android:focusable="false"
         android:fontFamily="sans-serif-condensed"
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:focusable="false"
-        android:text="The sound's volume can be adjusted by dragging the volume bar. To mute the sound simply press on the green speaker."
-        android:textAlignment="textStart"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/imgPointVolume"
-        android:layout_alignEnd="@+id/playTutOne" />
+        android:text="Volume bar. Press the green speaker to mute."
+        android:textAlignment="textStart" />
 
 
 </RelativeLayout>

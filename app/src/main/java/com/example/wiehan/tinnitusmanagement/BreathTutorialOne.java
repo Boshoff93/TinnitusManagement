@@ -107,7 +107,6 @@ public class BreathTutorialOne extends AppCompatActivity {
         }
     }
 
-
     private void addBottomDots(int position) {
 
         dots = new TextView[layouts.length];

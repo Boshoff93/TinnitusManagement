@@ -7,6 +7,26 @@
     android:background="@android:color/white"
     tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
 
+    <ImageView
+        android:id="@+id/tutImageTutOne"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/exitTutOne"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/my_personal_buttons" />
+
+    <TextView
+        android:id="@+id/tutLabelTutOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/exitLabelTutOne"
+        android:layout_alignBottom="@+id/exitLabelTutOne"
+        android:layout_centerHorizontal="true"
+        android:text="TUTORIAL"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -131,29 +151,29 @@
         android:layout_marginBottom="11dp"
         android:background="@drawable/textview_custom"
         android:ems="10"
+        android:focusable="false"
         android:fontFamily="sans-serif-condensed"
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:focusable="false"
         android:text="Once a desired BPM is chosen. Press the START button."
         android:textAlignment="textStart" />
 
     <EditText
         android:id="@+id/textExplainBPM"
         android:layout_width="360dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_alignEnd="@+id/startTutOne"
         android:layout_below="@+id/spinner"
         android:layout_marginTop="15dp"
         android:background="@drawable/textview_custom"
         android:ems="10"
+        android:focusable="false"
         android:fontFamily="sans-serif-condensed"
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:focusable="false"
-        android:text="The BPM (Breaths per Minute) dropdownlist allows you to specify how fast your desired breathing should be."
+        android:text="The BPM (Breaths per Minute) dropdownlist is used to specify desired breathing rate."
         android:textAlignment="textStart" />
 
     <ImageView
@@ -161,8 +181,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:srcCompat="@drawable/pointdownright"
-        android:layout_below="@+id/textExplainStart"
-        android:layout_alignStart="@+id/volumeTutOne" />
+        android:layout_alignBottom="@+id/tutLabelTutOne"
+        android:layout_toEndOf="@+id/tutImageTutOne" />
 
     <ImageView
         android:id="@+id/imgPointBPM"

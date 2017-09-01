@@ -11,10 +11,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -66,6 +68,7 @@ public class BreathControl extends AppCompatActivity {
         buttonTutorial = (Button) findViewById(R.id.buttonTutorial);
 
         mp = MediaPlayer.create(this, R.raw.whitenoise);
+        final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         volumeSeekbar = (SeekBar) findViewById(R.id.volumeAdjust);
         final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -83,7 +86,9 @@ public class BreathControl extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         globalCount = 0;
                         keepStartButtonInvisible = true;
-                        startButtonAnimation(buttonBreath, view, scaleBigger, scaleSmaller, mp);
+                        mp.start();
+                        buttonBreath.setVisibility(View.INVISIBLE);
+                        expandBubble(view, scaleBigger, scaleSmaller);
                     }
                 });
 
@@ -184,24 +189,50 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
-        buttonBreath.setOnClickListener(new View.OnClickListener() {
+        buttonBreath.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 AudioManager checkHeadphones = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                if (checkHeadphones.isWiredHeadsetOn() || checkHeadphones.isBluetoothA2dpOn()) {
-                  globalCount = 0;
-                  keepStartButtonInvisible = true;
-                  startButtonAnimation(buttonBreath, view, scaleBigger, scaleSmaller, mp);
-                } else {
-                    hpAlert.show();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        vibe.vibrate(100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (checkHeadphones.isWiredHeadsetOn() || checkHeadphones.isBluetoothA2dpOn()) {
+                            globalCount = 0;
+                            keepStartButtonInvisible = true;
+                            mp.start();
+                            buttonBreath.setVisibility(View.INVISIBLE);
+                            expandBubble(view, scaleBigger, scaleSmaller);
+
+                        } else {
+                            hpAlert.show();
+                        }
+                        break;
                 }
+                return false;
             }
         });
 
-        buttonExit.setOnClickListener(new View.OnClickListener() {
+        buttonExit.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public void onClick(View v) {
-                exitButtonAnimation(mp);
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        vibe.vibrate(100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mp.stop();
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MainScreen.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
             }
         });
 
@@ -220,110 +251,32 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
-        buttonTutorial.setOnClickListener(new View.OnClickListener(){
+        buttonTutorial.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public void onClick(View v) {
-                tutorialButtonAnimation();
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        vibe.vibrate(100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        MyPreferences.resetFirst(getApplicationContext());
+                        finish();
+                        Intent i = new Intent(getApplicationContext(), BreathTutorialOne.class);
+                        startActivity(i);
+                        break;
+                }
+                return false;
             }
         });
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mp.stop();
-    }
-
-    public void startButtonAnimation(final Button buttonBreath, final View view, final Animation scaleBigger, final Animation scaleSmaller, final MediaPlayer mp) {
-        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        buttonBreath.startAnimation(myAnim);
-
-        // Use bounce interpolator with amplitude 0.2 and frequency 20
-        // 0.2 is the bounce amplitude and 20 is the frequency
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 25);
-        myAnim.setInterpolator(interpolator);
-
-        myAnim.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            //Once Animation ends change screens
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mp.start();
-                buttonBreath.setVisibility(View.INVISIBLE);
-                expandBubble(view, scaleBigger, scaleSmaller);
-            }
-        });
-
-    }
-
-    public void tutorialButtonAnimation() {
-        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        buttonTutorial.startAnimation(myAnim);
-
-        // Use bounce interpolator with amplitude 0.2 and frequency 20
-        // 0.2 is the bounce amplitude and 20 is the frequency
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 25);
-        myAnim.setInterpolator(interpolator);
-
-        myAnim.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            //Once Animation ends change screens
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                MyPreferences.resetFirst(getApplicationContext());
-                finish();
-                Intent i = new Intent(getApplicationContext(), BreathTutorialOne.class);
-                startActivity(i);
-            }
-        });
-
-    }
-
-    public void exitButtonAnimation(final MediaPlayer mp) {
-        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        buttonExit.startAnimation(myAnim);
-
-        // Use bounce interpolator with amplitude 0.2 and frequency 20
-        // 0.2 is the bounce amplitude and 20 is the frequency
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 25);
-        myAnim.setInterpolator(interpolator);
-
-        myAnim.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            //Once Animation ends change screens
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mp.stop();
-                finish();
-                Intent intent = new Intent(getApplicationContext(), SelectActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
     //If continue button is pressed go back to the selector screen.
@@ -428,6 +381,15 @@ public class BreathControl extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(BreathControl.this, MainScreen.class));
+        finish();
+
     }
 }
 

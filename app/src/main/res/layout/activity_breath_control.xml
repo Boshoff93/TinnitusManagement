@@ -49,8 +49,7 @@
         android:id="@+id/breath_bubble"
         android:layout_height="100dp"
         android:layout_width="100dp"
-        android:layout_marginTop="137dp"
-        android:layout_below="@+id/volumeAdjust"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <ImageButton

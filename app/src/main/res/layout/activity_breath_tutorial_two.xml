@@ -7,6 +7,26 @@
     android:background="@android:color/white"
     tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
 
+    <ImageView
+        android:id="@+id/tutImageTutTwo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:srcCompat="@drawable/my_personal_buttons"
+        android:layout_alignTop="@+id/exitTutOne"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tutLabelTutTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TUTORIAL"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/exitLabelTutOne"
+        android:layout_alignBottom="@+id/exitLabelTutOne"
+        android:layout_centerHorizontal="true" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -83,9 +103,8 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         app:srcCompat="@drawable/my_personal_buttons"
-        android:layout_marginEnd="26dp"
-        android:layout_alignTop="@+id/exitTutOne"
-        android:layout_alignEnd="@+id/playTutOne" />
+        android:layout_alignTop="@+id/tutImageTutTwo"
+        android:layout_toStartOf="@+id/playTutOne" />
 
     <ImageView
         android:id="@+id/playTutOne"
@@ -99,33 +118,38 @@
 
     <TextView
         android:id="@+id/startLabelTutOne"
-        android:layout_width="50dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="START"
+        android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:layout_alignBaseline="@+id/exitLabelTutOne"
-        android:layout_alignBottom="@+id/exitLabelTutOne"
-        android:layout_toStartOf="@+id/playTutOne" />
+        android:layout_marginEnd="17dp"
+        android:layout_alignBaseline="@+id/tutLabelTutTwo"
+        android:layout_alignBottom="@+id/tutLabelTutTwo"
+        android:layout_alignEnd="@+id/startTutOne" />
 
     <TextView
         android:id="@+id/exitLabelTutOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
         android:text="EXIT"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_alignTop="@+id/exitTutOne"
-        android:layout_alignStart="@+id/exitTutOne"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="28dp" />
+        android:layout_alignStart="@+id/exitTutOne" />
 
     <EditText
         android:id="@+id/textExplainBubble"
         android:layout_width="350dp"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
+        android:layout_alignEnd="@+id/startTutOne"
+        android:layout_below="@+id/bubbleTutOne"
+        android:layout_marginTop="9dp"
         android:background="@drawable/textview_custom"
         android:ems="10"
         android:focusable="false"
@@ -133,11 +157,8 @@
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Once the start button is pressed, the green bubble will start expanding and contracting at a moderately fast pace. After each, inhale and exhale, the bubble will slow down its speed slightly, until the desired BMP is reached. A total of 30 breaths is required to complete the exercise. "
-        android:textAlignment="textStart"
-        android:layout_below="@+id/bubbleTutOne"
-        android:layout_alignEnd="@+id/startTutOne"
-        android:layout_marginTop="9dp" />
+        android:text="Once the start button is pressed, the green bubble will start expanding and contracting at a moderately fast pace, and gradualy decrease till the desired BMP is reached. The exercise consists out of 30 breaths. "
+        android:textAlignment="textStart" />
 
     <ImageView
         android:id="@+id/imgPointBubble"

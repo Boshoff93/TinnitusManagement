@@ -8,19 +8,20 @@
 
 
 
+
     tools:context="com.example.wiehan.tinnitusmanagement.MainScreen">
 
     <Button
-        android:text="START"
-        android:layout_height="120dp"
         android:id="@+id/buttonMain"
-        android:layout_width="120dp"
-        android:textSize="24sp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:background="@drawable/my_personal_buttons"
+        android:text="START"
         android:textAlignment="center"
-        android:layout_marginTop="157dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:textSize="24sp"
+        android:layout_below="@+id/idInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -70,5 +71,41 @@
         android:layout_alignTop="@+id/logoThree"
         android:layout_toStartOf="@+id/buttonMain"
         android:layout_marginEnd="17dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/lungsnew" />
+
+    <EditText
+        android:id="@+id/idInput"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="49dp"
+        android:layout_toEndOf="@+id/idInputLabel"
+        android:background="@drawable/inputbox"
+        android:paddingLeft="10dp"
+        android:text=""
+        android:maxLength="10"
+        android:maxLines="1"
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/idInputLabel"
+        android:paddingTop="2dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:text="ID:"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/idInput"
+        android:layout_alignStart="@+id/imageView" />
 
 </RelativeLayout>
