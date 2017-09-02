@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+
+    android:keepScreenOn="true"
+
     tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
 
     <ImageView
@@ -164,7 +167,7 @@
         android:inputType="textMultiLine"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Volume bar. Press the green speaker to mute."
+        android:text="Volume control bar. Press the green speaker to mute."
         android:textAlignment="textStart" />
 
 

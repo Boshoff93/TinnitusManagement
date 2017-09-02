@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -118,6 +119,10 @@ public class BreathControl extends AppCompatActivity {
                     dropDownLabel.setVisibility(View.INVISIBLE);
                     buttonTutorial.setVisibility(View.INVISIBLE);
 
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                    getSupportActionBar().hide();
+
                     actionBar.setBackgroundDrawable(new ColorDrawable(0xff000000));
                     actionBar.setDisplayShowTitleEnabled(false);
 
@@ -140,6 +145,9 @@ public class BreathControl extends AppCompatActivity {
                     buttonTutorial.setVisibility(View.VISIBLE);
                     actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3F51B5")));
                     actionBar.setDisplayShowTitleEnabled(true);
+
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getSupportActionBar().show();
 
                     colorFade.setDuration(1000);
                     colorFade.start();

@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
 
+    android:keepScreenOn="true"
+
     tools:context="com.example.wiehan.tinnitusmanagement.BreathTutorialOne">
 
     <LinearLayout
