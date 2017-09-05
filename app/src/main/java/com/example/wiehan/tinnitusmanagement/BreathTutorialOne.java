@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -34,9 +35,6 @@ public class BreathTutorialOne extends AppCompatActivity {
     private int desiredSpeed = 800;
     private LinearLayout dotsLayout;
     private int[] layouts;
-    MediaPlayer mpBreatheIn ;
-    MediaPlayer mpBreatheOut ;
-    boolean flagStopPlayer = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +42,6 @@ public class BreathTutorialOne extends AppCompatActivity {
         boolean isFirstTime = MyPreferences.isFirst(BreathTutorialOne.this);
 
         if (isFirstTime) {
-            mpBreatheIn = MediaPlayer.create(this, R.raw.breathein);
-            mpBreatheOut = MediaPlayer.create(this, R.raw.breatheout);
-            mpBreatheIn.setVolume(1,1);
-            mpBreatheOut.setVolume(1,1);
-
 
             tutorialManager = new TutorialManager(this);
             if (!tutorialManager.Check()) {
@@ -146,25 +139,24 @@ public class BreathTutorialOne extends AppCompatActivity {
                 next.setText("PROCEED");
                 skip.setVisibility(View.GONE);
                 final View view = findViewById(R.id.bubbleTutDemo);
+                final TextView textViewAnim = (TextView) findViewById(R.id.tvAnim);
                 final Animation scaleBigger = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_bigger);
                 final Animation scaleSmaller = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_smaller);
+                final Animation breatheInAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.countdown);
                 scaleBigger.setDuration(2000);
                 scaleSmaller.setDuration(2000);
-                flagStopPlayer = false;
-                expandBubble(view, scaleBigger, scaleSmaller);
+                expandBubble(view, textViewAnim, scaleBigger, scaleSmaller, breatheInAnim);
             } else if (position == 3) {
                 next.setTextColor(Color.parseColor("#ffffff"));
                 skip.setTextColor(Color.parseColor("#ffffff"));
                 next.setText("NEXT");
                 skip.setVisibility(View.VISIBLE);
-                flagStopPlayer = true;
                 globalCount = 0 ;
             } else {
                 next.setText("NEXT");
                 next.setTextColor(Color.parseColor("#000000"));
                 skip.setTextColor(Color.parseColor("#000000"));
                 skip.setVisibility(View.VISIBLE);
-                flagStopPlayer = true;
                 globalCount = 0 ;
             }
         }
@@ -213,15 +205,18 @@ public class BreathTutorialOne extends AppCompatActivity {
         }
     }
 
-    private void expandBubble(final View view, final Animation scaleBigger, final Animation scaleSmaller) {
+    private void expandBubble(final View view, final TextView textViewAnim, final Animation scaleBigger, final Animation scaleSmaller, final Animation breatheInAnim) {
+
+        textViewAnim.setText("BREATHE IN");
+        textViewAnim.startAnimation(breatheInAnim);
+
         view.startAnimation(scaleBigger);
 
         scaleBigger.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                if(!flagStopPlayer)
-                    mpBreatheIn.start();
+
             }
 
             @Override
@@ -234,19 +229,39 @@ public class BreathTutorialOne extends AppCompatActivity {
                 if (scaleBigger.getDuration() < desiredSpeed) {
                     scaleBigger.setDuration(scaleBigger.getDuration() + 500);
                 }
-                contractBubble(view, scaleBigger, scaleSmaller);
+                contractBubble(view, textViewAnim, scaleBigger, scaleSmaller, breatheInAnim);
+            }
+        });
+
+        breatheInAnim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            //Once Animation ends change screens
+            @Override
+            public void onAnimationEnd(Animation animation) {
             }
         });
     }
 
-    public void contractBubble(final View view, final Animation scaleBigger, final Animation scaleSmaller) {
+    public void contractBubble(final View view, final TextView textViewAnim, final Animation scaleBigger, final Animation scaleSmaller, final Animation breatheInAnim) {
+
+        textViewAnim.setText("BREATHE OUT");
+        textViewAnim.startAnimation(breatheInAnim);
+
         view.startAnimation(scaleSmaller);
+
         scaleSmaller.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                if(!flagStopPlayer)
-                    mpBreatheOut.start();
             }
 
             @Override
@@ -263,8 +278,25 @@ public class BreathTutorialOne extends AppCompatActivity {
                     scaleSmaller.setDuration(scaleSmaller.getDuration() + 500);
                 }
                 if (globalCount < 4) {
-                    expandBubble(view, scaleBigger, scaleSmaller);
+                    expandBubble(view, textViewAnim, scaleBigger, scaleSmaller, breatheInAnim);
                 }
+            }
+        });
+
+        breatheInAnim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            //Once Animation ends change screens
+            @Override
+            public void onAnimationEnd(Animation animation) {
             }
         });
     }
