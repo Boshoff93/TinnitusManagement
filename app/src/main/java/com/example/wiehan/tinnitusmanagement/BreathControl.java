@@ -49,6 +49,7 @@ public class BreathControl extends AppCompatActivity {
     ImageButton playButton;
     TextView dropDownLabel;
     ActionBar actionBar ;
+    int exerciseFlag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,8 @@ public class BreathControl extends AppCompatActivity {
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        MainScreen.writeFile("Exercise Started");
+                        exerciseFlag = 1; //Used by onBackPress to state exercise began so log if it is cancled
                         globalCount = 0;
                         keepStartButtonInvisible = true;
                         mp.start();
@@ -209,6 +212,8 @@ public class BreathControl extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (checkHeadphones.isWiredHeadsetOn() || checkHeadphones.isBluetoothA2dpOn()) {
+                            MainScreen.writeFile("Exercise Started");
+                            exerciseFlag = 1;
                             globalCount = 0;
                             keepStartButtonInvisible = true;
                             mp.start();
@@ -234,6 +239,9 @@ public class BreathControl extends AppCompatActivity {
                         vibe.vibrate(100);
                         break;
                     case MotionEvent.ACTION_UP:
+                        if(exerciseFlag == 1) {
+                            MainScreen.writeFile("Exercise Ended");
+                        }
                         mp.stop();
                         finish();
                         Intent intent = new Intent(getApplicationContext(), MainScreen.class);
@@ -279,12 +287,6 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mp.stop();
     }
 
     //If continue button is pressed go back to the selector screen.
@@ -338,6 +340,8 @@ public class BreathControl extends AppCompatActivity {
                 if (globalCount < 30) {
                     expandBubble(view, scaleBigger, scaleSmaller);
                 } else {
+                    MainScreen.writeFile("Exercise Ended");
+                    exerciseFlag = 0; //Flag used for onBackPress to record when exercise ended if it was in progress
                     mp.stop();
                     keepStartButtonInvisible = false;
                     try {
@@ -395,9 +399,30 @@ public class BreathControl extends AppCompatActivity {
     public void onBackPressed()
     {
         super.onBackPressed();
+        if (exerciseFlag == 1) {
+            MainScreen.writeFile("Exercise Ended");
+        }
         startActivity(new Intent(BreathControl.this, MainScreen.class));
         finish();
 
+    }
+
+    @Override
+    protected void onPause() {
+        MainScreen.writeFile("Exercise Screen Closed");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        MainScreen.writeFile("Exercise Screen Opened");
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mp.stop();
     }
 }
 

@@ -35,6 +35,7 @@ public class BreathTutorialOne extends AppCompatActivity {
     private int desiredSpeed = 800;
     private LinearLayout dotsLayout;
     private int[] layouts;
+    int tutorialFlag = 0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class BreathTutorialOne extends AppCompatActivity {
         boolean isFirstTime = MyPreferences.isFirst(BreathTutorialOne.this);
 
         if (isFirstTime) {
+            MainScreen.writeFile("Tutorial Started");
+            MainScreen.writeFile("Tutorial 1");
+            tutorialFlag = 1;
 
             tutorialManager = new TutorialManager(this);
             if (!tutorialManager.Check()) {
@@ -159,6 +163,24 @@ public class BreathTutorialOne extends AppCompatActivity {
                 skip.setVisibility(View.VISIBLE);
                 globalCount = 0 ;
             }
+
+            if(position == 0) {
+                MainScreen.writeFile("Tutorial 1");
+                tutorialFlag = 1;
+            } else if (position == 1) {
+                MainScreen.writeFile("Tutorial 2");
+                tutorialFlag = 1;
+            } else if (position == 2) {
+                MainScreen.writeFile("Tutorial 3");
+                tutorialFlag = 1;
+            } else if (position == 3) {
+                MainScreen.writeFile("Tutorial 4");
+                tutorialFlag = 1;
+            } else if (position == 4) {
+                MainScreen.writeFile("Tutorial 5");
+                tutorialFlag = 1;
+            }
+
         }
 
         @Override
@@ -300,4 +322,14 @@ public class BreathTutorialOne extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onPause() {
+        if(tutorialFlag == 1) {
+            MainScreen.writeFile("Tutorial Closed");
+            tutorialFlag = 0 ;
+        }
+        super.onPause();
+    }
+
 }
