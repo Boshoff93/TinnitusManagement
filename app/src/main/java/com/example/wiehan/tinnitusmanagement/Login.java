@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,8 @@ public class Login  extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setTitle("User ID");
         final EditText input = new EditText(this);
-        int maxLength = 8;
+        input.setGravity(Gravity.CENTER);
+        int maxLength = 16;
         input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
 
         input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -43,7 +45,7 @@ public class Login  extends AppCompatActivity {
         final AlertDialog dialogInput = builder.create();
         dialogInput.getWindow().setBackgroundDrawableResource(R.drawable.textview_custom);
         dialogInput.show();
-        //Overriding the handler immediately after show is probably a better approach than OnShowListener as described below
+
         dialogInput.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -60,6 +62,7 @@ public class Login  extends AppCompatActivity {
                 if(close) {
                     dialogInput.dismiss();
                     MainScreen.setFileName(input.getText().toString());
+                    MainScreen.writeFile("Insert Name");
                     Intent intent = new Intent(getApplicationContext(), MainScreen.class);
                     startActivity(intent);
                 }

@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,7 @@ public class MainScreen extends AppCompatActivity {
         id = (EditText) findViewById(R.id.idInput);
         id.setText(input);
         id.setEnabled(false);
+        id.setGravity(Gravity.CENTER);
         start = (Button) findViewById(R.id.buttonMain);
         Button about = (Button) findViewById(R.id.buttonAbout);
 
@@ -152,6 +154,7 @@ public class MainScreen extends AppCompatActivity {
             OutputStreamWriter writeLogs = new OutputStreamWriter(fOut);
 
             switch (appendType) {
+                case "Insert Name":                writeLogs.append("\n"+input+" (Login Time: " + new Date(System.currentTimeMillis())+")\n\n"); break;
                 case "Main Screen Opended":        writeLogs.append("Main Screen Opened:\t\t" + new Date(System.currentTimeMillis())+"\n"); break;
                 case "Main Screen Closed":         writeLogs.append("Main Screen Closed:\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
                 case "Exercise Screen Opened":     writeLogs.append("Exercise Screen Opened:\t" + new Date(System.currentTimeMillis())+"\n"); break;
