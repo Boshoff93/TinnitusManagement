@@ -21,6 +21,10 @@ public class Login  extends AppCompatActivity {
 
     Boolean close ;
     @Override
+
+    /*This file is used to display the input box for the user to input their username
+    * when the application is opened.
+    */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -46,6 +50,7 @@ public class Login  extends AppCompatActivity {
         dialogInput.getWindow().setBackgroundDrawableResource(R.drawable.textview_custom);
         dialogInput.show();
 
+        //Creates the input box content
         dialogInput.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -53,12 +58,14 @@ public class Login  extends AppCompatActivity {
             {
                 close = false;
 
+                //Won't continue until user specifies username
                 if(input.length() != 0) {
                     close = true ;
                 } else {
                     Toast.makeText(getApplicationContext(), "PLEASE ENTER AN ID", Toast.LENGTH_LONG).show(); ;
                 }
 
+                //If user has given a username the main screen will be displayed, and user metric will be logged to the specified user file.
                 if(close) {
                     dialogInput.dismiss();
                     MainScreen.setFileName(input.getText().toString());

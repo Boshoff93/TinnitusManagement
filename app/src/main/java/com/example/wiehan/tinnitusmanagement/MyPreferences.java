@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
  * Created by wiehan on 2017/07/22.
  */
 
+//This file is used to check if the app is opened for the very first time
 public class MyPreferences {
     private static final String MY_PREFERENCES = "my_preferences";
 

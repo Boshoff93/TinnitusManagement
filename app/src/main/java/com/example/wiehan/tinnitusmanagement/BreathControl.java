@@ -81,6 +81,7 @@ public class BreathControl extends AppCompatActivity {
         volumeSeekbar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volumeSeekbar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 
+        //Creates alert for when head phones aren't connected to the head-jack of the phone.
         final AlertDialog.Builder headPhoneAlert = new AlertDialog.Builder(BreathControl.this);
         headPhoneAlert.setPositiveButton(
                 "Yes",
@@ -110,6 +111,8 @@ public class BreathControl extends AppCompatActivity {
 
         dropDownLabel = (TextView) findViewById(R.id.textBPM) ;
 
+        //Sets the background to black, and hides components from the screen except the green bubble.
+        //Vice-versa it also re-displays the components.
         background.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
                 if (!backGroundHide) {
@@ -160,16 +163,20 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
+        //BPM dropdown-list sets the desired breaths per minute, and also sets the specified value in MainScreen to to be logged to the user metric's file
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String bpm = spinner.getItemAtPosition(position).toString() ;
                 if(bpm.equals("6")) {
-                   desiredSpeed = 5000;
+                    MainScreen.setBPM("6");
+                    desiredSpeed = 5000;
                 } else if(bpm.equals("9")) {
-                   desiredSpeed = 3350; ;
+                    MainScreen.setBPM("9");
+                    desiredSpeed = 3350; ;
                 } else {
-                   desiredSpeed = 2500;
+                    MainScreen.setBPM("12");
+                    desiredSpeed = 2500;
                 }
 
             }
@@ -200,6 +207,9 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
+        /*Starts the application and provides a warning message if no earphones are detected.
+        * expandBubble will be called first.
+         */
         buttonBreath.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -229,6 +239,7 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
+        //Returns user to MainScreen
         buttonExit.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -252,6 +263,9 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
+        /*Mutes playback-sound when the speaker icon is pressed
+        * Vice-versa it also un-mutes the sound.
+         */
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,6 +281,7 @@ public class BreathControl extends AppCompatActivity {
             }
         });
 
+        //Re-directs user to tutorial screens.
         buttonTutorial.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -289,7 +304,9 @@ public class BreathControl extends AppCompatActivity {
 
     }
 
-    //If continue button is pressed go back to the selector screen.
+    /*Expands the bubble, and increases the rate of expansion by 200 milliseconds on completion.
+    * After expansion of bubble is completed the contractBubble method will be called.
+     */
     public void expandBubble(final View view, final Animation scaleBigger, final Animation scaleSmaller) {
         view.startAnimation(scaleBigger);
 
@@ -316,6 +333,10 @@ public class BreathControl extends AppCompatActivity {
 
     }
 
+    /*Contracts the bubble, and also checks if the 30 cycles has been completed.
+    * If so the exercise screen will be reset to its original state.
+    * If 30 cycles has not bee completed the expandBubble method will be called and the process repeats.
+     */
     public void contractBubble(final View view, final Animation scaleBigger, final Animation scaleSmaller) {
         view.startAnimation(scaleSmaller);
         scaleSmaller.setAnimationListener(new Animation.AnimationListener() {
@@ -382,7 +403,7 @@ public class BreathControl extends AppCompatActivity {
 
     }
 
-    // Add items into spinner dynamically
+    // Adds BPM items into spinner (dropdown-list) component dynamically.
     public void addItemsOnSpinner() {
         spinner = (Spinner) findViewById(R.id.bpmDropdown);
         List<Integer> list = new ArrayList<Integer>();
@@ -395,6 +416,7 @@ public class BreathControl extends AppCompatActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+    //When the phone's back button is pressed, re-directs user to the MainScreen.
     @Override
     public void onBackPressed()
     {

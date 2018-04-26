@@ -49,12 +49,13 @@ public class MainScreen extends AppCompatActivity {
     EditText id ;
     int initialOpen = 0;
     static String input ;
-
+    static String bpmValue ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        //Give necessary permissions to write to applications internal storage
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             } else {
@@ -75,6 +76,7 @@ public class MainScreen extends AppCompatActivity {
         final Toast toast = Toast.makeText(context, text, duration);
         final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
+        //About button displays a simple toast message, to state the creators of the application
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +84,11 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
+
+        /*When start screen is pressed, the application will check if "Do Not Distrub Permissions" are given, if not a warning screen will be displayed to ask user to give access.
+        * If the phone is not switched to airplane mode, a warning message will be displayed stating that airplain mode needs to be switched on, and the app will not continue to the exercise screen.
+        * If the above two requirements are met, the application will direct the user to the exercise screen screen
+        */
         start.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -152,11 +159,22 @@ public class MainScreen extends AppCompatActivity {
 
     }
 
+    //Sets the app's breathing pattern. This is used by the writeFile method to state what breathing pattern was selected on start of the exercise
+    public static void setBPM(String value) {
+        bpmValue = value ;
+    }
+
+    //Method can be accessed by other parts of the program by referencing MainScreen.writeFile
     public static void writeFile(String appendType) {
 
         try {
-            File path = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS);
+            //Write to folder called /Tinnitus App - Participant Folder/Participant_Name - App Data.txt
+            File path = new File(Environment.getExternalStorageDirectory() +
+                    File.separator + "Tinnitus App - Participant Folder");
+            if (!path.exists()) {
+                path.mkdirs();
+            }
+
             File myFile = new File(path, input + " - App Data.txt");
             FileOutputStream fOut = new FileOutputStream(myFile,true);
             OutputStreamWriter writeLogs = new OutputStreamWriter(fOut);
@@ -165,7 +183,7 @@ public class MainScreen extends AppCompatActivity {
                 case "Insert Name":                writeLogs.append("\n"+input+" (Login Time: " + new Date(System.currentTimeMillis())+")\n\n"); break;
                 case "Main Screen Opended":        writeLogs.append("Main Screen Opened:\t\t" + new Date(System.currentTimeMillis())+"\n"); break;
                 case "Main Screen Closed":         writeLogs.append("Main Screen Closed:\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
-                case "Exercise Screen Opened":     writeLogs.append("Exercise Screen Opened:\t" + new Date(System.currentTimeMillis())+"\n"); break;
+                case "Exercise Screen Opened":     writeLogs.append("Exercise Screen Opened:\t" + new Date(System.currentTimeMillis()) + "\n"); break;
                 case "Exercise Screen Closed":     writeLogs.append("Exercise Screen Closed:\t" + new Date(System.currentTimeMillis())+"\n") ; break;
                 case "Tutorial Started":           writeLogs.append("Tutorial Sarted:\t\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
                 case "Tutorial Closed":            writeLogs.append("Tutorial Closed:\t\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
@@ -174,7 +192,7 @@ public class MainScreen extends AppCompatActivity {
                 case "Tutorial 3":                 writeLogs.append("Tutorial Screen 3 Opended:\t" + new Date(System.currentTimeMillis())+"\n") ; break;
                 case "Tutorial 4":                 writeLogs.append("Tutorial Screen 4 Opended:\t" + new Date(System.currentTimeMillis())+"\n") ; break;
                 case "Tutorial 5":                 writeLogs.append("Tutorial Screen 5 Opended:\t" + new Date(System.currentTimeMillis())+"\n") ; break;
-                case "Exercise Started":           writeLogs.append("Exercise Started:\t\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
+                case "Exercise Started":           writeLogs.append("Exercise Started:\t\t\t" + new Date(System.currentTimeMillis()) + " - Breathing Pattern: " + bpmValue +" Breaths per Minute\n") ; break;
                 case "Exercise Ended":             writeLogs.append("Exercise Ended:\t\t\t" + new Date(System.currentTimeMillis())+"\n") ; break;
 
             }

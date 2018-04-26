@@ -42,6 +42,9 @@ public class BreathTutorialOne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         boolean isFirstTime = MyPreferences.isFirst(BreathTutorialOne.this);
 
+        /*Checks if app is opened for the first time. If so the tutorial screen will be displayed
+        * automatically otherwise the user will be directed to the exercise screen
+        */
         if (isFirstTime) {
             MainScreen.writeFile("Tutorial Started");
             MainScreen.writeFile("Tutorial 1");
@@ -65,6 +68,8 @@ public class BreathTutorialOne extends AppCompatActivity {
             dotsLayout = (LinearLayout) findViewById(R.id.LayoutDots);
             skip = (Button) findViewById(R.id.buttonSkip);
             next = (Button) findViewById(R.id.buttonNext);
+
+            //Sets layouts that are part of the tutorial series pages.
             layouts = new int[]{R.layout.activity_breath_tutorial_one, R.layout.activity_breath_tutorial_two, R.layout.activity_breath_tutorial_three,
                     R.layout.activity_breath_tutorial_four, R.layout.activity_breath_tutorial_demo};
 
@@ -104,6 +109,7 @@ public class BreathTutorialOne extends AppCompatActivity {
         }
     }
 
+    //Add botom dots to bottom of tutorial page and sets first dot to be active.
     private void addBottomDots(int position) {
 
         dots = new TextView[layouts.length];
@@ -129,6 +135,7 @@ public class BreathTutorialOne extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
+    //Sets correct format for tutorial screen pages.
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -164,6 +171,7 @@ public class BreathTutorialOne extends AppCompatActivity {
                 globalCount = 0 ;
             }
 
+            //Updates metric files, specifying when tutorial screens are opened.
             if(position == 0) {
                 MainScreen.writeFile("Tutorial 1");
                 tutorialFlag = 1;
@@ -198,6 +206,7 @@ public class BreathTutorialOne extends AppCompatActivity {
         }
     }
 
+    //Displays the correct tutorial screen based of which of the bottom dots is presently active
     private class ViewPagerAdapter extends PagerAdapter {
 
         private LayoutInflater layoutInflater;
@@ -227,6 +236,9 @@ public class BreathTutorialOne extends AppCompatActivity {
         }
     }
 
+    /*Small demo that calls expandBubble on the last tutorial screen.
+    * After expansion of bubble is completed the contractBubble method will be called.
+     */
     private void expandBubble(final View view, final TextView textViewAnim, final Animation scaleBigger, final Animation scaleSmaller, final Animation breatheInAnim) {
 
         textViewAnim.setText("BREATHE IN");
@@ -273,6 +285,9 @@ public class BreathTutorialOne extends AppCompatActivity {
         });
     }
 
+    /* Once contractBubble has concluded, expandBubble will be called again. This process will continue for 4 iterations.
+    *
+     */
     public void contractBubble(final View view, final TextView textViewAnim, final Animation scaleBigger, final Animation scaleSmaller, final Animation breatheInAnim) {
 
         textViewAnim.setText("BREATHE OUT");
